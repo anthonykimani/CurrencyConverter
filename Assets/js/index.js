@@ -1,54 +1,26 @@
-const primaryCurrency = document.getElementById('primary');
-const secondaryCurrency = document.getElementById('secondary');
-const buttonClick = document.getElementById('btn-convert');
 
-const currencies = {
-    KEN: "Kenyan Shilling",
-    AUD: "Australian Dollar",
-    CAD: "Canadian Dollar",
-    EUR: "Euro",
-    GBP: "British Pound",
-    INR: "Indian Rupee",
-    JPN: "Japanese Yen",
-    USD: "United States Dollar",
-    ZAR: "South African Rand",
-  };
-  const getOptions = (data)=>{
-      return Object.entries(data).map(([country, currency])=>{
-          `<option value=${country}>${country}|${currency}</option>`
-      }).join('');
-  }
+//allow one to enter number to input-bar
 
-primaryCurrency.innerHTML = getOptions(currencies);
-secondaryCurrency.innerHTML = getOptions(currencies);
-
-const fetchCurrencies = ()=>{
-    const primary = primaryCurrency.value;
-    const secondary = secondaryCurrency.value;
-    const amount = document.getElementById('amount').value;
-
-    fetch('https://v6.exchangerate-api.com/v6/9e3a324d9269f390bd8cd0ea/latest/USD'+ primary)
-    .then((response)=>{
-        if(response.ok){
-            return response.json();
-        }
-        else{
-            throw new Error("NETWORK RESPONSE ERROR")
-        }
-    });
-    then((data)=>{
-        console.log(data);
-        displayCurrency(data,primary,secondary,amount);
-    })
-    .catch((error)=>console.error("FETCH ERROR:",error));
+//allow user to select current currency
+const currencyObject = {
+    "US Dollar":"100",
+    "KE Shilling":"150",
+    "TZ Shilling":"400",
+    "UG Shilling":"1200",
+    "SA Rand":"110",
+    "NG Naira":"300",
 }
 
-buttonClick.addEventListener('click', fetchCurrencies());
+const currentCurrency = document.getElementById('primary');
+currentCurrency.innerHTML = currentCurrencySelector(currencyObject);
 
-
-const displayCurrency = (data, primary, secondary, amount)=>{
-    const calculated = amount*dataconversion_rates[secondary];
-    document.getElementById('result').setAttribute('style','display:block');
-    document.getElementById('txt-primary').innerText = amount + '' + primary + '='; 
-    document.getElementById('txt-secondary').innerText = calculated + '' + secondary; 
+function currentCurrencySelector(data){
+    
+    const selectOptions = Object.keys(data).map((currency)=>`<option value=${currency}>${currency}</option>`).join("");
+    console.log(selectOptions);
+    return selectOptions;
 }
+
+//allow user to select new currency
+//allow user to convert the currency using the convert button
+//displays to  the currency to the user
